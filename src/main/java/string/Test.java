@@ -18,4 +18,5 @@ public class Test {
         int end=address.indexOf(".",start);
         return address.substring(start,end);
     }
+
 }
