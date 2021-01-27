@@ -4,7 +4,7 @@ import javax.print.DocFlavor;
 import java.io.File;
 
 /**
- * Java,io,File可以表示硬盘上的一个文件或目录
+ * Java.io.File可以表示硬盘上的一个文件或目录
  * 使用File可以：
  * 1.访问该文件或目录的属性信息（大小、修改日期。可读可写等）
  * 2.创建或删除文件和目录
