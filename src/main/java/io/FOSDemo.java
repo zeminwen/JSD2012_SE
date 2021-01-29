@@ -54,7 +54,6 @@ public class FOSDemo {
         fos.write(line.getBytes("utf-8"));
 //        fos.write("我可以偶尔给你带来小甜蜜".getBytes("utf-8"));
 //        fos.write("可不可以呢".getBytes("utf-8")); ctrl+？快速多行注释
-
         System.out.println("写出完毕");
         fos.close();
 

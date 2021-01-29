@@ -1,5 +1,7 @@
 package string;
 
+import java.util.Scanner;
+
 /**
  * char charAt(int index)
  * 获取指定位置上的字符
@@ -11,5 +13,6 @@ public class CharAtDemo {
         //获取第5个字符(下标为:4)
         char c=str.charAt(4);
         System.out.println(c);//k
+
     }
 }
