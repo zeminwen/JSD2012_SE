@@ -1,4 +1,7 @@
 package homework.day05;
+
+import java.io.*;
+
 /**
  * 先将content.txt文件拷贝到项目目录中
  * 
@@ -13,12 +16,19 @@ package homework.day05;
  *
  */
 public class Test05 {
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws IOException {
+		FileInputStream fis=new FileInputStream("content.txt");
+		InputStreamReader isr=new InputStreamReader(fis,"utf-8");
+		int d;
+		while ((d=isr.read())!=-1) {
+			System.out.println((char)d);
+			isr.close();
+		}
 	}
 	
 	public static void read() {
-		
+
+
 	}
 	
 }

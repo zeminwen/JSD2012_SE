@@ -16,10 +16,10 @@ import java.io.ObjectInputStream;
  */
 public class Test04 {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        FileInputStream fis= new FileInputStream("person.obj");;
+        FileInputStream fis= new FileInputStream("张三疯.obj");;
         ObjectInputStream ois=new ObjectInputStream(fis);
-        Person p=(Person)ois.readObject();
-        System.out.println(p);
+        User user=(User) ois.readObject();
+        System.out.println(user);
         ois.close();
     }
 

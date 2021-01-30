@@ -1,4 +1,10 @@
 package homework.day05;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 /**
  * 设计一个类:User
  * 里面有四个属性:String name,String pwd,String nick,int age
@@ -25,5 +31,26 @@ package homework.day05;
  *
  */
 public class Test03 {
+    public static void main(String[] args) throws IOException {
+        String name="张三疯";
+        String pwd="zhangsanfeng";
+        String nick="张哥";
+        int age=55;
+        User user=new User(name,pwd,nick,age);
+        if (name.matches("[a-zA-Z0-9_]{1,32}")) {
+            user.setName(name);
+        }else{
+            System.out.println("用户名不合法！");
+        }
+        if(name.trim().length()==0||pwd.trim().length()==0||
+        nick.trim().length()==0||age<0||age>100){
+            System.out.println("用户信息输入有误");
+        }
+        FileOutputStream fos=new FileOutputStream("张三疯.obj");
+        ObjectOutputStream oos=new ObjectOutputStream(fos);
+        oos.writeObject(user);
+        System.out.println("用户写出完毕");
+        oos.close();
+    }
 
 }
