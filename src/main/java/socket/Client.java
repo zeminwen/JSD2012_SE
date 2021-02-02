@@ -2,6 +2,7 @@ package socket;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.Scanner;
 
 /**
  * 聊天室客户端
@@ -21,7 +22,7 @@ public class Client {
 
             实例化Socket时需要传入两个参数：
             1.服务端的地址信息(IP地址)
-            用过地址可以找到网络上服务端的计算
+            通过地址可以找到网络上服务端的计算
             2.服务端打开的服务窗口
             通过这个端口可以找到服务端计算机运行的服务端程序
              */
@@ -57,11 +58,28 @@ public class Client {
                    )
                ),true
             );
+
         ){
-            pw.println("你好服务端");
+            Scanner scanner=new Scanner(System.in);
+            System.out.println("请开始输入内容，单独输入exit退出");
+            while (true) {
+                String line=scanner.nextLine();
+                if ("exit".equals(line)) {
+                    break;
+                }
+                pw.println(line);
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
+        }finally{
+            try {
+                //最终不再通讯时要关闭socket(相当于挂电话)
+                //socket关闭后，通过socket获取的输入流与输出流就自动关闭了
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

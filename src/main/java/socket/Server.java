@@ -49,23 +49,16 @@ public class Server {
             返回一个Socket实例，通过这个Socket就可以与连接的客户端进行
             交互了。
              */
-            System.out.println("等待客户端连接...");
-            Socket socket=serverSocket.accept();
-            System.out.println("一个客户端连接了！");
-
-            /*
-            Socket提供的方法：
-            InputStream getInputStream()
-            通过socket获取的输入流可以读取远端计算机发来的数据
-             */
-            BufferedReader br=new BufferedReader(
-              new InputStreamReader(
-                  socket.getInputStream(),"utf-8"
-              )
-            );
-
-            String line=br.readLine();
-            System.out.println(line);
+            while (true) {
+                System.out.println("等待客户端连接...");
+                Socket socket = serverSocket.accept();
+                System.out.println("一个客户端连接了！");
+                //启动一个线程处理与该客户端的交互
+                Runnable handler=new ClientHandler(socket);//加一个
+                // socket参数以便在ClientHandler里面调用
+                Thread t=new Thread(handler);
+                t.start();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -76,5 +69,36 @@ public class Server {
     public static void main(String[] args) {
         Server server=new Server();
         server.start();
+    }
+
+    private class ClientHandler implements Runnable{
+        private Socket socket;//设置一个socket属性
+
+        public ClientHandler(Socket socket){//设置构造方法，让下面socket和转换流连接！
+            this.socket=socket;
+        }
+        public void run(){
+            try{
+            /*
+            Socket提供的方法：
+            InputStream getInputStream()
+            通过socket获取的输入流可以读取远端计算机发来的数据
+             */
+                BufferedReader br=new BufferedReader(
+                        new InputStreamReader(
+                                socket.getInputStream(),"utf-8"
+                        )
+                );
+
+
+                String line;
+                while ((line=br.readLine())!=null) {
+                    System.out.println("客户端说："+line);
+                }
+
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
     }
 }
