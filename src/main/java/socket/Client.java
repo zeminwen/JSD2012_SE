@@ -39,7 +39,11 @@ public class Client {
      * 客户端开始工作的方法
      */
     public void start(){
-
+        //先启动读取服务端发送过来消息的线程
+        ServerHandler handler=new ServerHandler();
+        Thread t=new Thread(handler);
+        t.setDaemon(true);
+        t.start();
         try (
             /*
             Socket提供的方法
@@ -69,7 +73,6 @@ public class Client {
                 }
                 pw.println(line);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }finally{
@@ -86,6 +89,26 @@ public class Client {
     public static void main(String[] args) {
         Client client =new Client();
         client.start();
+    }
+    //该线程负责读取服务端发送过来的消息
+    private class ServerHandler implements Runnable{
+        @Override
+        public void run() {
+            try (
+                    BufferedReader br=new BufferedReader(
+                            new InputStreamReader(
+                                    socket.getInputStream(),"utf-8"
+                            )
+                    );
+            ){
+                String line;
+                //读取服务端发送过来的每一行字符串并输出到客户端的控制台上
+                while((line=br.readLine())!=null){
+                    System.out.println(line);
+                }
+            }catch (IOException e){
+            }
+        }
     }
 }
 
