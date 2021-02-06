@@ -15,6 +15,7 @@ public class IntegerDemo3 {
         Integer i=Integer.valueOf(d);
          */
         Integer i=d;
+        System.out.println(i);
         /*
         下面的代码出发了编译器的自动拆箱特性：
         编译器会补充代码将包装类转换为基本类型，代码会变为：

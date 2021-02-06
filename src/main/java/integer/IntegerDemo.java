@@ -12,10 +12,11 @@ public class IntegerDemo {
     public static void main(String[] args) {
         //基本类型转化为包装类
         int d=123;
-        /*Integer i1=new Integer(d);
-        Integer i2=new Integer(d);
-        System.out.println(i1==i2);
-        System.out.println(i1.equals(i2));*///包装类已经自动重写过了，此处就是比内容
+//        Integer i1=new Integer(d);
+//        Integer i2=new Integer(d);
+//        System.out.println(i1==i2);
+//        System.out.println(i1.equals(i2));
+        //包装类已经自动重写过了，此处就是比内容
         Integer i1=Integer.valueOf(d);
         Integer i2=Integer.valueOf(d);
         System.out.println(i1==i2);//valueOf创建则为true
