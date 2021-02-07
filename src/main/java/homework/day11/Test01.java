@@ -19,7 +19,7 @@ public class Test01 {
 		for (int i=1;i<11;i++){
 			list.add(i);
 		}
-		Iterator it = list.iterator();
+		Iterator<Integer> it = list.iterator();
 		while(it.hasNext()) {
 			System.out.println(it.next());
 		}

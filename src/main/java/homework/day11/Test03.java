@@ -1,8 +1,6 @@
 package homework.day11;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 生成10个0-100之间的不重复的随机数,并输出
@@ -11,14 +9,12 @@ import java.util.Random;
  */
 public class Test03 {
 	public static void main(String[] args) {
-		Collection<Integer> c=new ArrayList();
-		Random random=new Random();
-		for (int i=0;i<10;i++){
-			int num=random.nextInt(101);
-			c.add(num);
+		Random random = new Random();
+		Set<Integer> set = new HashSet<>();
+		while(set.size()<10){
+			set.add(random.nextInt(100));
 		}
-		for (Integer a:c){
-			System.out.println(a);
-		}
+		System.out.println(set.size());
+		System.out.println(set);
 	}
 }
