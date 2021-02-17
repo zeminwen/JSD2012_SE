@@ -7,9 +7,9 @@ public class TryCatchDemo {
     public static void main(String[] args) {
         System.out.println("程序开始了...");
         try{//try语句块用来括上可能出错的代码片段
-//            String str=null;   按“ctrl+/ ”快捷单行注释
+            String str=null;
 //            String str="";
-            String str="abc";
+//            String str="abc";
             /*
 
              */

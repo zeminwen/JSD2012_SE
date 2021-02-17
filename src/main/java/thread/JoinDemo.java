@@ -16,8 +16,8 @@ public class JoinDemo {
     public static void main(String[] args) {
         /*
         一个方法的局部内部类中若引用了这个方法的其他局部变量时，这个变量必须被声明
-        为final的(JDK8之后，可以不再显式写出final关键字修饰这个局部变量，但是如果
-        被该方法的其他局部变量引用时，它仍然时final的)
+        为final(JDK8之后，可以不再显式写出final关键字修饰这个局部变量，但是如果
+        被该方法的其他局部变量引用时，它仍然是final的)
          */
 //        final boolean isFinish=false;
         Thread download=new Thread(){

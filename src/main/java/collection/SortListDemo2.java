@@ -32,8 +32,6 @@ public class SortListDemo2 {
                 return olen1-olen2;
             }
         });
-
-
         System.out.println(list);
     }
 }

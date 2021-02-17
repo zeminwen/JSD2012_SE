@@ -11,6 +11,9 @@ public class SplitDemo {
         String str="abc123def456ghi789jkl";
         //按照数字部分拆分
         String[]arr=str.split("[0-9]+");
+        String[]arr1=str.split("[a-z]+");
+        System.out.println(arr1.length);
+
         System.out.println(arr.length);
         for (int i=0;i<arr.length;i++){
             System.out.println(arr[i]);

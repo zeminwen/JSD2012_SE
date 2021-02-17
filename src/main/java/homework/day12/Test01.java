@@ -18,9 +18,8 @@ public class Test01 {
 	public static void main(String[] args) {
 		List<Integer>list=new ArrayList<>();
 		Random random=new Random();
-		for (int i=0;i<20;i++){
-			int num=random.nextInt(101);
-			list.add(num);
+		while (list.size()<20){
+			list.add(random.nextInt(100));
 		}
 		Collections.sort(list);
 		List<Integer>sublist=list.subList(5,15);

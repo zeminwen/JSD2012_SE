@@ -12,6 +12,7 @@ public class CurrentThreadDemo {
     public static void main(String[] args) {
         //获取运行main方法的线程
         Thread main=Thread.currentThread();
+
         System.out.println("运行main方法的线程是："+main);
         //让主线程调用dosome方法，进去该方法执行其中代码
         dosome();

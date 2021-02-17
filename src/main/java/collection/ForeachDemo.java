@@ -47,10 +47,10 @@ public class ForeachDemo {
           而应当使用foreach方法，这样操作做到与增删元素互斥保证并发安全。
          */
         c.forEach(str-> System.out.println(str));//此遍历方法只对集合有效！
-        c.forEach(
-                (str)->{//小括号可以省略不写
-                    System.out.println(str);//方法体中只有一句代码，大括号也可省略不写
-                }
-        );
+//        c.forEach(
+//                (str)->{//小括号可以省略不写
+//                    System.out.println(str);//方法体中只有一句代码，大括号也可省略不写
+//                }
+//        );
     }
 }

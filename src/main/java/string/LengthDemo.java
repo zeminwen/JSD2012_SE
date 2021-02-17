@@ -8,6 +8,6 @@ public class LengthDemo {
     public static void main(String[] args) {
         String str="我爱java！";
         int len=str.length();
-        System.out.println("len:"+len);
+        System.out.println("字符串长度:"+len);
     }
 }

@@ -12,7 +12,7 @@ public class ThreadInfo {
         System.out.println("name:"+name);
         //获取唯一标识
         long id=t.getId();
-        System.out.println("唯聊天室多线程原理图.png一标识："+id);
+        System.out.println("唯一标识："+id);
         //获取线程的优先级
         int priority=t.getPriority();
         System.out.println("优先级："+priority);

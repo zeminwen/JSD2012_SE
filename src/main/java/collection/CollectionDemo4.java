@@ -25,8 +25,8 @@ public class CollectionDemo4 {
            boolean addAll(Collection c)
            将给定集合的所有元素添加到当前集合中，添加后当前集合发生了变化才会返回true
          */
-        c1.addAll(c2);
-        System.out.println("c1:"+c1);
+//        c1.addAll(c2);
+//        System.out.println("c1:"+c1);
 //
 //        c2.addAll(c1);//c2是Set集合，不能放重复元素
 //        System.out.println("c2:"+c2);
@@ -34,8 +34,8 @@ public class CollectionDemo4 {
            下面操作是将c2当成一个元素添加到c1集合中。此时c1集合包含四个元素，三个字符串类型
            元素和一个HashSet类型的元素。因此并非将c2所有元素添加到了c1中。
          */
-//        c1.add(c2);
-//        System.out.println("c1:"+c1);
+        c1.add(c2);
+        System.out.println("c1:"+c1);
 
         Collection c3=new ArrayList();
         c3.add("android");

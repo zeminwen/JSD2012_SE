@@ -13,10 +13,10 @@ public class FISDemo {
         int len=fis.read(data);
         System.out.println("实际读取了："+len+"个字节");
         /*
-        将给定的字节数组从下表offset处的连续len个字节按照utf-8编码
+        将给定的字节数组从下标offset处的连续len个字节按照utf-8编码
         转换为字符串。
          */
-        String line=new String(data,0,len,"utf-8").trim();//去除字符后面的空白
+        String line=new String(data,0,len,"utf-8");//去除字符后面的空白
         System.out.println(line);
         System.out.println(line.length());
         fis.close();

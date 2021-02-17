@@ -77,10 +77,10 @@ public class Server {
     }
 
     private class ClientHandler implements Runnable{
-        private Socket socket;//设置一个socket属性
+        private Socket socket;//设置一个socket属性，以便将socket传给线程执行
         private String host;//当前客户端的IP地址信息
 
-        public ClientHandler(Socket socket){//设置构造方法，让下面socket和转换流连接！
+        public ClientHandler(Socket socket){//设置构造方法，否则io流识别不了socket
             this.socket=socket;
             //通过socket获取远端计算机地址信息
             host=socket.getInetAddress().getHostAddress();
@@ -109,7 +109,12 @@ public class Server {
                 );
                 //将当前对应客户端的输出流存入到共享数组allOut中，以便广播消息
                 //不行，每个线程都运行自己的ClientHandler，this就是这些ClientHandler
-//                synchronized (serverSocket) {
+//                synchronized (this) {
+                //不行，因为同步块中有扩容数组操作，allOut对象指向的数组对象在变化
+//                synchronized (allOut){
+                
+//                synchronized (serverSocket) {//可以
+//                synchronized (Server.class) {//可以
                     //1.先对allOut数组扩容
                  //   allOut = Arrays.copyOf(allOut, allOut.length + 1);
                     //2.将当前pw存入数组最后一个位置
@@ -161,7 +166,6 @@ public class Server {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }

@@ -14,7 +14,11 @@ public class MapDemo {
     public static void main(String[] args) {
         Map<String,Integer>map=new HashMap<>();
         /*
-
+            V put(K k,V v)
+            将一组键值对存入到当前Map中。
+            由于Map有一个要求:key不允许重复(使用key自身equals比较判定重复，与集合一致)
+            因此如果使用已有的key存放value时则会替换value。返回值为被替换的value。
+            如果key不存在，则正常存入Map，此时返回值为null。
          */
         /*
           当Map的Value类型是包装类时，获取该值应当使用包装类类型的变量接收，不要使用

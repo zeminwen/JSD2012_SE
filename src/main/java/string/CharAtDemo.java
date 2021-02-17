@@ -13,6 +13,5 @@ public class CharAtDemo {
         //获取第5个字符(下标为:4)
         char c=str.charAt(4);
         System.out.println(c);//k
-
     }
 }

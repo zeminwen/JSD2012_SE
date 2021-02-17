@@ -12,7 +12,7 @@ public class RAFDemo1 {
         //想对当前目录下的raf.dat文件进行操作
         /*
         RAF常用构造器
-        RandomAccessFile(File,file,String mode)
+        RandomAccessFile(File file,String mode)
         RandomAccessFile(String path,String mode)
         第一个参数为要进行读写的文件，可以传入file对象也可以
         直接给定该文件的路径。
@@ -33,7 +33,7 @@ public class RAFDemo1 {
            00000000 00000000 00000000 00000001
 
            write方法写入该int值对应2进制的低八位:
-                                       vvvvvvvv
+                                      vvvvvvvv
            00000000 00000000 00000000 00000001
          */
         raf.write(1);

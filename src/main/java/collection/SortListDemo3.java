@@ -11,19 +11,15 @@ import java.util.List;
 public class SortListDemo3 {
     public static void main(String[] args) {
         List<String>list=new ArrayList<>();
-        list.add("ada");
-        list.add("tom");
-        list.add("jerry");
-        list.add("rose");
-        list.add("jack");
-        list.add("MIKE");
-        list.add("KOBE");
-        list.add("JAMES");
-        list.add("hanmeimei");
+        list.add("苍老师");
+        list.add("传奇");
+        list.add("小泽老师");
         System.out.println(list);
 //        Collections.sort(list);
         //按照字符多少排序
-        Collections.sort(list, (s1,s2)->s1.length()-s2.length());
+//        Collections.sort(list, (s1,s2)->s1.length()-s2.length());
+        //降序
+        Collections.sort(list,(s1,s2)->s2.length()-s1.length());
 
         System.out.println(list);
 

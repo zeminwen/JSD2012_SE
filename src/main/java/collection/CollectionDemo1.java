@@ -10,7 +10,7 @@ import java.util.Collection;
  * 并且集合有多种不同的数据结构可供选择。
  *
  * Collection下面有两个常见的子接口：
- * java.util.list:线性表，这类集合的特点时可以存放重复元素，并且有序。
+ * java.util.list:线性表，这类集合的特点是可以存放重复元素，并且有序。
  *                常用实现类：java.util.ArrayList,java.util.LinkedList
  * java.util.Set:这类集合的特点是不能存放重复元素。
  *               常用实现类:java.util.HashSet
@@ -25,11 +25,11 @@ public class CollectionDemo1 {
         集合只能存放引用类型元素，如果指定的元素是基本类型时编译器会进行自动装箱
         为包装类。
          */
-        c.add("上");
-        c.add("山");
-        c.add("打");
-        c.add("老");
-        c.add("虎");
+        c.add(1);
+        c.add(2);
+        c.add("3");
+        c.add("4");
+        c.add("5");
         System.out.println(c);
 
         int size=c.size();

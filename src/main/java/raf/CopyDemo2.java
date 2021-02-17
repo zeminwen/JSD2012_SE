@@ -21,6 +21,9 @@ public class CopyDemo2 {
         void write(byte[] data)
         一次性将给定的字节数组中所有字节写入文件
 
+        void write(byte[] data,int offset,int len)
+        一次性将给定数组中从下标offset处开始的连续len个字节写入文件
+
         块读：
         int read(byte[] data)
         一次性从文件中读取给定的字节数组data总长度的字节量并将读取到的字节顺序的
