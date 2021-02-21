@@ -1,8 +1,12 @@
 package homework.day10;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class ClientHandler implements Runnable{
     private Socket socket;
@@ -12,27 +16,41 @@ public class ClientHandler implements Runnable{
     @Override
     public void run() {
         try {
-            InputStream in=socket.getInputStream();
-            String line=readLine();
-            System.out.println("请求行:"+line);
-            String method;
-            String uri;
-            String protocol;
-            String[]data=line.split("\\s");
-            method=data[0];
-            uri=data[1];
-            protocol=data[2];
-            System.out.println("method:"+method);
-            System.out.println("uri:"+uri);
-            System.out.println("protocol:"+protocol);
-            while(true){
-                line=readLine();
-                if (line.isEmpty()){
-                   break;
-                }
-                System.out.println("消息头:"+line);
+            HttpRequest request = new HttpRequest(socket);
+            HttpResponse response = new HttpResponse(socket);
+            String path = request.getUri();
+            File file = new File("webapps" + path);
+            if (file.exists() && file.isFile()) {
+                System.out.println("该资源已找到:" + file.getName());
+                Map<String, String> mimeMapping = new HashMap<>();
+                mimeMapping.put("html", "text/html");
+                mimeMapping.put("css", "text/css");
+                mimeMapping.put("js", "application/javascript");
+                mimeMapping.put("png", "image/png");
+                mimeMapping.put("gif", "image/png");
+                mimeMapping.put("jpg", "image/jpeg");
+                String fileName = file.getName();
+                String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
+                String type = mimeMapping.get(ext);
+                System.out.println(ext);
+                response.putHeader("Content-Type", type);
+                response.putHeader("Content-Length", file.length() + "");
+                response.setEntity(file);
+            } else {
+                System.out.println("该资源不存在");
+                File notFoundPage = new File("webapps/root/404.html");
+                response.setStatusCode(404);
+                response.setStatusReason("NotFound");
+                response.putHeader("Content-Type", "text/html");
+                response.putHeader("Content-Length", notFoundPage.length() + "");
+                response.setEntity(notFoundPage);
             }
-        } catch (Exception e) {
+            response.putHeader("Server", "WebServer");
+            response.flush();
+            System.out.println("响应发送完毕");
+        }catch (EmptyRequestException e){
+
+        }catch (Exception e) {
             e.printStackTrace();
         }finally {
             try {
@@ -41,21 +59,5 @@ public class ClientHandler implements Runnable{
                 e.printStackTrace();
             }
         }
-    }
-    public String readLine() throws IOException {
-        InputStream in=socket.getInputStream();
-        int d;
-        char pre=' ';
-        char cur=' ';
-        StringBuilder builder=new StringBuilder();
-        while((d=in.read())!=-1){
-            cur=(char)d;
-            if (pre==13&&cur==10){
-               break;
-            }
-            builder.append(cur);
-            pre=cur;
-        }
-        return builder.toString().trim();
     }
 }
