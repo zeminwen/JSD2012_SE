@@ -12,12 +12,39 @@ public class HttpRequest {
     private String protocol;
     private Map<String,String>headers=new HashMap<>();
     private Socket socket;
+    private String requestURI;
+    private String queryString;
+    private Map<String ,String >parameter=new HashMap<>();
 
     public HttpRequest(Socket socket) throws EmptyRequestException {
         this.socket=socket;
         parseRequestLine();
         parseHeaders();
         parseContent();
+    }
+
+    private void parseUri(){
+        if (uri.contains("?")){
+            String[]data=uri.split("\\?");
+            requestURI=data[0];
+            if (data.length>1){
+                queryString=data[1];
+                data=queryString.split("&");
+                for (String para:data){
+                    String[]paras=para.split("=");
+                    if (paras.length>1){
+                        parameter.put(paras[0],paras[1]);
+                    }else {
+                        parameter.put(paras[0],null);
+                    }
+                }
+            }
+        }else{
+            requestURI=uri;
+        }
+        System.out.println("requestURI:"+requestURI);
+        System.out.println("queryString:"+queryString);
+        System.out.println("parameter:"+parameter);
     }
     private void parseRequestLine() throws EmptyRequestException {
         System.out.println("HttpRequest:开始解析请求行");
@@ -31,6 +58,7 @@ public class HttpRequest {
             method=data[0];
             uri=data[1];
             protocol=data[2];
+            parseUri();
             System.out.println("method:"+method);
             System.out.println("uri:"+uri);
             System.out.println("protocol:"+protocol);
@@ -93,5 +121,17 @@ public class HttpRequest {
 
     public String getHeaders(String name) {
         return headers.get(name);
+    }
+
+    public String getRequestURI() {
+        return requestURI;
+    }
+
+    public String getQueryString() {
+        return queryString;
+    }
+
+    public String getParameter(String name) {
+        return parameter.get(name);
     }
 }

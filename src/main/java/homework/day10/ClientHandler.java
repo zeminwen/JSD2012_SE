@@ -22,27 +22,12 @@ public class ClientHandler implements Runnable{
             File file = new File("webapps" + path);
             if (file.exists() && file.isFile()) {
                 System.out.println("该资源已找到:" + file.getName());
-                Map<String, String> mimeMapping = new HashMap<>();
-                mimeMapping.put("html", "text/html");
-                mimeMapping.put("css", "text/css");
-                mimeMapping.put("js", "application/javascript");
-                mimeMapping.put("png", "image/png");
-                mimeMapping.put("gif", "image/png");
-                mimeMapping.put("jpg", "image/jpeg");
-                String fileName = file.getName();
-                String ext = fileName.substring(fileName.lastIndexOf(".") + 1);
-                String type = mimeMapping.get(ext);
-                System.out.println(ext);
-                response.putHeader("Content-Type", type);
-                response.putHeader("Content-Length", file.length() + "");
                 response.setEntity(file);
             } else {
                 System.out.println("该资源不存在");
                 File notFoundPage = new File("webapps/root/404.html");
                 response.setStatusCode(404);
                 response.setStatusReason("NotFound");
-                response.putHeader("Content-Type", "text/html");
-                response.putHeader("Content-Length", notFoundPage.length() + "");
                 response.setEntity(notFoundPage);
             }
             response.putHeader("Server", "WebServer");
