@@ -18,23 +18,27 @@ public class ClientHandler implements Runnable{
         try {
             HttpRequest request = new HttpRequest(socket);
             HttpResponse response = new HttpResponse(socket);
-            String path = request.getUri();
-            File file = new File("webapps" + path);
-            if (file.exists() && file.isFile()) {
-                System.out.println("该资源已找到:" + file.getName());
-                response.setEntity(file);
-            } else {
-                System.out.println("该资源不存在");
-                File notFoundPage = new File("webapps/root/404.html");
-                response.setStatusCode(404);
-                response.setStatusReason("NotFound");
-                response.setEntity(notFoundPage);
+            String path = request.getRequestURI();
+            if ("/myweb/regUser".equals(path)){
+                RegServlet servlet=new RegServlet();
+                servlet.server(request,response);
+            }else {
+                File file = new File("webapps" + path);
+                if (file.exists() && file.isFile()) {
+                    System.out.println("该资源已找到:" + file.getName());
+                    response.setEntity(file);
+                } else {
+                    System.out.println("该资源不存在");
+                    File notFoundPage = new File("webapps/root/404.html");
+                    response.setStatusCode(404);
+                    response.setStatusReason("NotFound");
+                    response.setEntity(notFoundPage);
+                }
             }
-            response.putHeader("Server", "WebServer");
-            response.flush();
-            System.out.println("响应发送完毕");
+                response.putHeader("Server", "WebServer");
+                response.flush();
+                System.out.println("响应发送完毕");
         }catch (EmptyRequestException e){
-
         }catch (Exception e) {
             e.printStackTrace();
         }finally {
