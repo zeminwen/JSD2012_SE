@@ -2,7 +2,9 @@ package homework.day10;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,20 +26,17 @@ public class HttpRequest {
     }
 
     private void parseUri(){
+        try {
+            uri= URLDecoder.decode(uri,"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         if (uri.contains("?")){
             String[]data=uri.split("\\?");
             requestURI=data[0];
             if (data.length>1){
                 queryString=data[1];
-                data=queryString.split("&");
-                for (String para:data){
-                    String[]paras=para.split("=");
-                    if (paras.length>1){
-                        parameter.put(paras[0],paras[1]);
-                    }else {
-                        parameter.put(paras[0],null);
-                    }
-                }
+                parseParameter(queryString);
             }
         }else{
             requestURI=uri;
@@ -45,6 +44,18 @@ public class HttpRequest {
         System.out.println("requestURI:"+requestURI);
         System.out.println("queryString:"+queryString);
         System.out.println("parameter:"+parameter);
+    }
+
+    private void parseParameter(String line){
+        String[] data=line.split("&");
+        for (String para:data){
+            String[]paras=para.split("=");
+            if (paras.length>1){
+                parameter.put(paras[0],paras[1]);
+            }else {
+                parameter.put(paras[0],null);
+            }
+        }
     }
     private void parseRequestLine() throws EmptyRequestException {
         System.out.println("HttpRequest:开始解析请求行");
@@ -83,11 +94,36 @@ public class HttpRequest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("HttpRequest:请求行解析完成");
+        System.out.println("HttpRequest:消息头解析完成");
     }
     private void parseContent(){
         System.out.println("HttpRequest:开始解析消息正文");
-
+        if ("post".equalsIgnoreCase(method)){
+            String len=headers.get("Content-Length");
+            if (len!=null){
+                int length=Integer.parseInt(len);
+                byte[]data=new byte[length];
+                try {
+                    InputStream in=socket.getInputStream();
+                    in.read(data);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                String type=headers.get("Content-Type");
+                if (type!=null){
+                    if ("application/x-www-form-urlencoded".equalsIgnoreCase(type)){
+                        try {
+                            String line=new String(data,"iso8859-1");
+                            line=URLDecoder.decode(line,"utf-8");
+                            System.out.println("消息正文:"+line);
+                            parseParameter(line);
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
         System.out.println("HttpRequest:消息正文解析完成");
     }
     public String readLine() throws IOException {

@@ -53,17 +53,19 @@ public class HttpResponse {
     }
     private void sendContent(){
         System.out.println("HttpResponse:开始发送响应正文");
-        try (
-                FileInputStream fis=new FileInputStream(entity);
-                ){
-            OutputStream out=socket.getOutputStream();
-            int len;
-            byte[]buf=new byte[1024*10];
-            while ((len=fis.read(buf))!=-1){
-                out.write(buf,0,len);
+        if (entity!=null) {
+            try (
+                    FileInputStream fis = new FileInputStream(entity);
+            ) {
+                OutputStream out = socket.getOutputStream();
+                int len;
+                byte[] buf = new byte[1024 * 10];
+                while ((len = fis.read(buf)) != -1) {
+                    out.write(buf, 0, len);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         System.out.println("HttpResponse:响应正文发送完毕");
     }

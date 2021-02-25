@@ -19,8 +19,12 @@ public class ClientHandler implements Runnable{
             HttpRequest request = new HttpRequest(socket);
             HttpResponse response = new HttpResponse(socket);
             String path = request.getRequestURI();
+            System.out.println(path);
             if ("/myweb/regUser".equals(path)){
                 RegServlet servlet=new RegServlet();
+                servlet.server(request,response);
+            }else if ("/myweb/loginUser".equals(path)){
+                LoginServlet servlet=new LoginServlet();
                 servlet.server(request,response);
             }else {
                 File file = new File("webapps" + path);

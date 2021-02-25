@@ -32,6 +32,7 @@ public class RegServlet {
                     return;
                 }
             }
+            raf.seek(raf.length());
             byte[]data=username.getBytes("utf-8");
             data= Arrays.copyOf(data,32);
             raf.write(data);
