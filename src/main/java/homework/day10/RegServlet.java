@@ -32,6 +32,8 @@ public class RegServlet {
                     return;
                 }
             }
+            //将指针移动到文件末尾，以便追加记录
+            raf.seek(raf.length());
             byte[]data=username.getBytes("utf-8");
             data= Arrays.copyOf(data,32);
             raf.write(data);
