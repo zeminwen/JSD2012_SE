@@ -1,4 +1,4 @@
-package homework.day10;
+package com.webserver.http;
 
 public class EmptyRequestException extends Exception{
     public EmptyRequestException() {

@@ -1,4 +1,4 @@
-package homework.day10;
+package com.webserver.http;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -6,26 +6,25 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HttpRequest {
     private String method;
     private String uri;
     private String protocol;
-    private Map<String,String>headers=new HashMap<>();
-    private Socket socket;
     private String requestURI;
     private String queryString;
-    private Map<String ,String >parameter=new HashMap<>();
+    private Map<String,String>parameter=new HashMap<>();
+    private Map<String,String>headers=new HashMap<>();
+    private Socket socket;
 
-    public HttpRequest(Socket socket) throws EmptyRequestException {
+    public HttpRequest(Socket socket){
         this.socket=socket;
-        parseRequestLine();
-        parseHeaders();
-        parseContent();
+
+
+
     }
-
-
     private void parseRequestLine() throws EmptyRequestException {
         System.out.println("HttpRequest:开始解析请求行");
         try {
@@ -34,7 +33,7 @@ public class HttpRequest {
                 throw new EmptyRequestException();
             }
             System.out.println("请求行:"+line);
-            String[] data=line.split("\\s");
+            String[]data=line.split("\\s");
             method=data[0];
             uri=data[1];
             protocol=data[2];
@@ -45,13 +44,12 @@ public class HttpRequest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("HttpRequest:请求行解析完成");
+        System.out.println("HttpRequest:请求行解析完毕");
     }
-
 
     private void parseUri(){
         try {
-            uri=URLDecoder.decode(uri,"utf-8");
+            uri= URLDecoder.decode(uri,"utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -62,7 +60,7 @@ public class HttpRequest {
                 queryString=data[1];
                 parseParameter(queryString);
             }
-        }else{
+        }else {
             requestURI=uri;
         }
         System.out.println("requestURI:"+requestURI);
@@ -71,7 +69,7 @@ public class HttpRequest {
     }
 
     private void parseParameter(String line){
-        String[] data=line.split("&");
+        String[]data=line.split("&");
         for (String para:data){
             String[]paras=para.split("=");
             if (paras.length>1){
@@ -80,33 +78,31 @@ public class HttpRequest {
                 parameter.put(paras[0],null);
             }
         }
-        System.out.println(parameter);
     }
 
-
     private void parseHeaders(){
-        System.out.println("HttpRequest:开始解析消息头");
+        System.out.println("HttpRequest:开始解析消息头...");
         try {
             while (true){
-            String line=readLine();
-            if (line.isEmpty()){
-                break;
-            }
-            System.out.println("消息头:"+line);
-            String[]data=line.split(":\\s");
-            headers.put(data[0],data[1]);
+                String line=readLine();
+                if (line.isEmpty()){
+                    break;
+                }
+                System.out.println("消息头:"+line);
+                String[]data=line.split(":\\s");
+                headers.put(data[0],data[1]);
             }
             System.out.println("headers:"+headers);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("HttpRequest:请求行解析完成");
+        System.out.println("HttpRequest:消息头解析完成");
     }
+
     private void parseContent(){
-        System.out.println("HttpRequest:开始解析消息正文");
+        System.out.println("HttpRequest:开始解析消息正文...");
         if ("post".equalsIgnoreCase(method)){
             String len=headers.get("Content-Length");
-            System.out.println("contentlength:"+len);
             if (len!=null){
                 int length=Integer.parseInt(len);
                 byte[]data=new byte[length];
@@ -118,32 +114,39 @@ public class HttpRequest {
                 }
                 String type=headers.get("Content-Type");
                 if (type!=null){
-                    System.out.println("正常！！！！！！");
-                    if ("application/x-www-form-urlencoded".equalsIgnoreCase(type)){
+                    if ("application/x-www-form-urlencoded".equalsIgnoreCase(type)) {
+                        String line = null;
                         try {
-                            String line=new String(data,"iso8859-1");
-                            line= URLDecoder.decode(line,"utf-8");
-                            System.out.println(line);
-                            parseParameter(line);
+                            line = new String(data, "iso8859-1");
+                            line = URLDecoder.decode(line, "utf-8");
                         } catch (UnsupportedEncodingException e) {
                             e.printStackTrace();
                         }
+                        System.out.println("消息正文:" + line);
+                        parseParameter(line);
                     }
                 }
             }
         }
-        System.out.println("HttpRequest:消息正文解析完成");
+        System.out.println("HttpRequest:消息正文解析完毕");
     }
+
+
+
+
+
+
+
     public String readLine() throws IOException {
         InputStream in=socket.getInputStream();
-        StringBuilder builder=new StringBuilder();
-        char pre=' ';
-        char cur=' ';
         int d;
+        char cur='a';
+        char pre='a';
+        StringBuilder builder=new StringBuilder();
         while ((d=in.read())!=-1){
             cur=(char)d;
             if (pre==13&&cur==10){
-               break;
+                break;
             }
             builder.append(cur);
             pre=cur;
@@ -163,10 +166,6 @@ public class HttpRequest {
         return protocol;
     }
 
-    public String getHeaders(String name) {
-        return headers.get(name);
-    }
-
     public String getRequestURI() {
         return requestURI;
     }
@@ -177,5 +176,9 @@ public class HttpRequest {
 
     public String getParameter(String name) {
         return parameter.get(name);
+    }
+
+    public String getHeaders(String name) {
+        return headers.get(name);
     }
 }
