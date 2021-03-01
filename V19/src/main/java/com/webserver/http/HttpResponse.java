@@ -1,6 +1,5 @@
 package com.webserver.http;
 
-import javax.xml.ws.spi.http.HttpContext;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
@@ -20,10 +19,36 @@ public class HttpResponse {
         this.socket=socket;
     }
 
+    public void flush(){
+
+    }
+
+    public void putHeaders(String name,String value){
+        headers.put(name,value);
+    }
+
     public void setEntity(File entity){
         this.entity=entity;
         String fileName=entity.getName();
         String ext=fileName.substring(fileName.lastIndexOf(".")+1);
-        //String type= HttpContext
+        String type= HttpContext.getMimeType(ext);
+        putHeaders("Content-Type",type);
+        putHeaders("Content-Length",entity.length()+"");
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public void setStatusCode(int statusCode) {
+        this.statusCode = statusCode;
+    }
+
+    public String getStatusReason() {
+        return statusReason;
+    }
+
+    public void setStatusReason(String statusReason) {
+        this.statusReason = statusReason;
     }
 }

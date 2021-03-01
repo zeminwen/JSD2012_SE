@@ -24,9 +24,17 @@ public class ClientHandler implements Runnable{
             File file=new File("webapps"+path);
             if (file.exists()&&file.isFile()){
                 System.out.println("该资源已找到:"+file.getName());
-              //  response
+                response.setEntity(file);
+            }else {
+                System.out.println("该资源不存在");
+                File notFoundPage=new File("webapps/root/404.html");
+                response.setStatusCode(404);
+                response.setStatusReason("NotFound");
+                response.setEntity(notFoundPage);
             }
         }
+        response.putHeaders("Server","WebServer");
+
 
     }
 }
