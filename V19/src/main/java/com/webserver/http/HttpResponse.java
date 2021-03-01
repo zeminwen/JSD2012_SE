@@ -1,5 +1,6 @@
 package com.webserver.http;
 
+import javax.xml.ws.spi.http.HttpContext;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintWriter;
@@ -17,5 +18,12 @@ public class HttpResponse {
     private Socket socket;
     public HttpResponse(Socket socket){
         this.socket=socket;
+    }
+
+    public void setEntity(File entity){
+        this.entity=entity;
+        String fileName=entity.getName();
+        String ext=fileName.substring(fileName.lastIndexOf(".")+1);
+        //String type= HttpContext
     }
 }
